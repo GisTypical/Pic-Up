@@ -7,6 +7,7 @@ app.secret_key = 'qid'
 
 @app.route('/', methods=['GET'])
 def index():
+    print("SE HA ENTRADO A ESTA RUTA")
     return app.send_static_file('index.html')
 
 
