@@ -2,7 +2,7 @@ from flask import Flask, session
 
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
-app.secret_key = 'qid'
+app.secret_key = 'qida'
 
 
 @app.route('/', methods=['GET'])
