@@ -1,7 +1,7 @@
 {
   "name": "pic-up",
   "version": "1.0.0",
-  "description": "",
+  "description": "Repositorio de imágenes",
   "main": "index.js",
   "engines": {
     "node": "14.16.x"
