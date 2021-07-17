@@ -10,7 +10,7 @@ def index():
     return app.send_static_file('index.html')
 
 
-@app.route('/<string:name>')
+@app.route('/api/<string:name>')
 def hello_world(name):
     if not 'name' in session:
         print('no hay cookies')
