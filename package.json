@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.16.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd frontend && npm start"
+    "build": "cd frontend && npm install && npm run build"
   },
   "keywords": [],
-  "author": "",
+  "author": "GisTypical",
   "license": "ISC"
 }
