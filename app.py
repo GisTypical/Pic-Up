@@ -1,13 +1,14 @@
+import os
 from flask import Flask, session
-
-app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
+STATIC_FOLDER = os.path.abspath('./frontend/build')
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path='/')
 
 app.secret_key = 'qid'
 
 
 @app.route('/', methods=['GET'])
 def index():
-    print("SE HA ENTRADO A ESTA RUTA")
+    print(STATIC_FOLDER)
     return app.send_static_file('index.html')
 
 
