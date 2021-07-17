@@ -8,7 +8,7 @@ app.secret_key = 'qid'
 
 @app.route('/', methods=['GET'])
 def index():
-    print(STATIC_FOLDER)
+    print(app.send_static_file('index.html'))
     return app.send_static_file('index.html')
 
 
