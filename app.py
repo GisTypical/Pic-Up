@@ -5,7 +5,7 @@ app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 app.secret_key = 'qid'
 
 
-@app.router('/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():
     return app.send_static_file('index.html')
 
