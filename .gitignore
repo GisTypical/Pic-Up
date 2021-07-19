@@ -1,4 +1,6 @@
-frontend/node_modules
+# Frontend
+node_modules/
+build/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
