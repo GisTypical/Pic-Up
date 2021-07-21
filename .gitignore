@@ -1,3 +1,6 @@
+# vscode
+/.vscode
+
 # Frontend
 node_modules/
 build/

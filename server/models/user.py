@@ -1,0 +1,7 @@
+from app import db
+
+
+class User_account(db.Model):
+    username = db.Column(db.String(), primary_key=True, nullable=False)
+    full_name = db.Column(db.String(), nullable=False)
+    password = db.Column(db.String(), nullable=False)

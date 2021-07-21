@@ -1,35 +1,30 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./Home";
+import Landing from "./Landing";
+import Login from "./Login";
+import Signup from "./Signup";
+import { user_loggedin } from "./utils/user-api";
 
 function App() {
-  const [hola, setHola] = useState("");
-  useEffect(() => {
-    axios.get("/api/hola").then(({ data }) => {
-      setHola(data);
-    });
-  }, [setHola]);
+  const { data: user, isLoading } = useQuery("user", user_loggedin);
+
+  if (isLoading) {
+    return <p>Cargando...</p>;
+  }
+
   return (
     <Router>
-      <nav style={{ marginLeft: "10px" }}>
-        <ul>
-          <li>
-            <Link to="/">to Principal</Link>
-          </li>
-          <li>
-            <Link to="/hola">to Hola</Link>
-          </li>
-          <li>
-            <Link to="/ruta2">to Ruta2</Link>
-          </li>
-        </ul>
-      </nav>
       <Switch>
         <Route exact path="/">
-          Principal
+          {user.data ? <Home user={user.data}></Home> : <Landing></Landing>}
         </Route>
-        <Route path="/hola">{hola}</Route>
-        <Route path="/ruta2">Ruta2</Route>
+        <Route path="/login">
+          <Login></Login>
+        </Route>
+        <Route path="/signup">
+          <Signup></Signup>
+        </Route>
       </Switch>
     </Router>
   );
