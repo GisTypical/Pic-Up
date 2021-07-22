@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useHistory } from "react-router-dom";
 import { user_logout } from "../utils/user-api";
 
-const Menu = () => {
+const Menu = ({ setShowMenu }) => {
   const queryClient = useQueryClient();
   const history = useHistory();
   const { mutate: userLogout } = useMutation(user_logout, {
@@ -16,7 +16,8 @@ const Menu = () => {
       <button
         className="h-10"
         onClick={() => {
-          history.replace(`/settings`);
+          setShowMenu(false);
+          history.replace(`/home/settings`);
         }}
       >
         Ajustes

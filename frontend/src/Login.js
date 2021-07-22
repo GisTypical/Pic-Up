@@ -10,7 +10,7 @@ const Login = () => {
   const mutation = useMutation(user_login, {
     onSuccess: async () => {
       await queryClient.invalidateQueries("user");
-      history.push("/");
+      history.push("/home");
     },
   });
 

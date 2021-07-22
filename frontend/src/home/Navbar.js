@@ -6,7 +6,7 @@ const Navbar = ({ user }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <nav className="grid grid-flow-col py-4 h-16 px-24 items-center">
+    <nav className="grid grid-flow-col py-4 px-24 items-center">
       <Logo></Logo>
       <input
         className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
@@ -25,7 +25,7 @@ const Navbar = ({ user }) => {
           {user.charAt(0).toUpperCase()}
         </button>
       </div>
-      {showMenu && <Menu></Menu>}
+      {showMenu && <Menu setShowMenu={setShowMenu}></Menu>}
     </nav>
   );
 };
