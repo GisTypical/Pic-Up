@@ -24,7 +24,9 @@ const Login = () => {
   return (
     <div className="grid place-items-center h-full">
       <div>
-        <Logo></Logo>
+        <div className="flex justify-center">
+          <Logo></Logo>
+        </div>
         <form
           className="px-10 py-8 mt-10 w-96 bg-gray-800 rounded-2xl flex flex-col space-y-4"
           onSubmit={onSubmit}

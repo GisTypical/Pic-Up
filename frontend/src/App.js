@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./Home";
+import Navbar from "./home/Navbar";
+import Home from "./home/Home";
 import Landing from "./Landing";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -14,19 +15,28 @@ function App() {
   }
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          {user.data ? <Home user={user.data}></Home> : <Landing></Landing>}
-        </Route>
-        <Route path="/login">
-          <Login></Login>
-        </Route>
-        <Route path="/signup">
-          <Signup></Signup>
-        </Route>
-      </Switch>
-    </Router>
+    <div className="bg-gray-900 text-white h-screen tracking-wide">
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            {user.data ? (
+              <Home>
+                <Navbar user={user.data}></Navbar>
+              </Home>
+            ) : (
+              <Landing></Landing>
+            )}
+          </Route>
+          <Route path="/login">
+            <Login></Login>
+          </Route>
+          <Route path="/signup">
+            <Signup></Signup>
+          </Route>
+          <Route path="*">404</Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

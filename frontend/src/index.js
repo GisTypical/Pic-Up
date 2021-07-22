@@ -9,9 +9,7 @@ const queryClient = new QueryClient();
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <div className="bg-gray-900 text-white h-screen tracking-wide">
-        <App />
-      </div>
+      <App />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,

@@ -1,4 +1,3 @@
-from datetime import timedelta
 import os
 
 from dotenv import load_dotenv
@@ -16,7 +15,10 @@ app.config.from_object(DevelopmentConfig)
 db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
+
 from server.controllers.user import user_bp
+from server.controllers.picture import picture_bp
+from server.controllers.repository import repository_bp
 
 """
 En el caso de que se haga una petición a una ruta que el backend no conoce
@@ -37,3 +39,5 @@ def index():
 
 # Blueprints que permiten separar el server en componentes
 app.register_blueprint(user_bp)
+app.register_blueprint(picture_bp)
+app.register_blueprint(repository_bp)

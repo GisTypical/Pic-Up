@@ -5,7 +5,7 @@ class Config(object):
     DEBUG = False
     CSRF_ENABLED = True
     SQLALCHEMY_DATABASE_URI = os.environ['DB_URI']
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
 
 class ProductionConfig(Config):
     DEBUG = False
