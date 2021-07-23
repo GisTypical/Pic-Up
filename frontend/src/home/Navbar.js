@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Logo from "../common/Logo";
 import Menu from "./Menu";
 
@@ -15,7 +16,7 @@ const Navbar = ({ user }) => {
         id="search"
         placeholder="Busca alguna imágen por tags"
       />
-      <div className="flex flex-row-reverse space-x-reverse space-x-10">
+      <div className="flex flex-row-reverse space-x-reverse space-x-10 items-center">
         <button
           className="rounded-full h-10 w-10 flex items-center justify-center bg-green-500"
           onClick={() => {
@@ -24,6 +25,12 @@ const Navbar = ({ user }) => {
         >
           {user.charAt(0).toUpperCase()}
         </button>
+        <NavLink
+          to={`/home/repositories`}
+          activeClassName="text-green-500 font-bold"
+        >
+          Repositorios
+        </NavLink>
       </div>
       {showMenu && <Menu setShowMenu={setShowMenu}></Menu>}
     </nav>

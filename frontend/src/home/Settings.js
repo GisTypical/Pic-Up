@@ -81,16 +81,18 @@ const Settings = ({ user }) => {
             </p>
           )}
         </form>
-        <button
-          className="bg-red-500 rounded-lg py-2 outline-none border-2 border-transparent focus:border-2 focus:border-gray-800 focus:ring-2 focus:ring-red-400 w-full"
-          onClick={() => handleDelete()}
-        >
-          Eliminar usuario
-        </button>
-        <h6 className="text-xs opacity-60" htmlFor="username">
-          Eliminar su usuario implica la eliminación de repositorios y fotos
-          subidas, proceda si está completamente de acuerdo.
-        </h6>
+        <div className="delete space-y-2">
+          <button
+            className="rounded-lg py-2 outline-none border-2 border-transparent bg-red-500 focus:border-2 focus:border-gray-800 focus:ring-2 focus:ring-red-400 w-full"
+            onClick={() => handleDelete()}
+          >
+            Eliminar usuario
+          </button>
+          <h6 className="mt text-xs opacity-60" htmlFor="username">
+            Eliminar su usuario implica la eliminación de repositorios y fotos
+            subidas, proceda si está completamente de acuerdo.
+          </h6>
+        </div>
       </Card>
     </div>
   );

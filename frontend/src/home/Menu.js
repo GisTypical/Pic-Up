@@ -12,7 +12,7 @@ const Menu = ({ setShowMenu }) => {
     },
   });
   return (
-    <div className="absolute grid grid-flow-row py-5 px-3 right-20 top-16 rounded-2xl bg-gray-700 divide-y-2">
+    <div className="absolute grid grid-flow-row py-2 px-3 right-20 top-16 rounded-2xl bg-gray-700 divide-y-2">
       <button
         className="h-10"
         onClick={() => {
