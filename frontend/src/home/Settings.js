@@ -2,6 +2,7 @@ import React from "react";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import CardForm from "../common/CardForm";
+import Loading from "../common/Loading";
 import { user_delete, user_update } from "../utils/user-api";
 
 const Settings = () => {
@@ -65,9 +66,7 @@ const Settings = () => {
         >
           Aceptar cambios
         </button>
-        {status === "loading" && (
-          <p className="text-center text-sm">Actualizando datos...</p>
-        )}
+        {status === "loading" && <Loading />}
         {status === "success" && (
           <p className="text-center text-sm text-green-500">
             Datos actualizados correctamente

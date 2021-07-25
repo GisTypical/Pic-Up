@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { Link, useHistory } from "react-router-dom";
+import Loading from "./common/Loading";
 import Logo from "./common/Logo";
 import { user_loggedin } from "./utils/user-api";
 
@@ -15,7 +16,7 @@ const Landing = () => {
   });
 
   if (isLoading) {
-    return <p>Cargando...</p>;
+    return <Loading />;
   }
 
   return (

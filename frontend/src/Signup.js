@@ -1,6 +1,7 @@
 import React from "react";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
+import Loading from "./common/Loading";
 import Logo from "./common/Logo";
 import { user_signup } from "./utils/user-api";
 
@@ -83,11 +84,7 @@ const Signup = () => {
           </button>
 
           {/* Status messages */}
-          {mutation.isLoading && (
-            <p className="text-sm text-center">
-              Registrando usuario, espere...
-            </p>
-          )}
+          {mutation.isLoading && <Loading />}
           {mutation.isError && mutation.error.response.status === 409 && (
             <p className="text-sm text-center text-yellow-500">
               El nombre de usuario ingresado ya existe

@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import Loading from "../common/Loading";
 import PicComponent from "../common/PicComponent";
 import { getDate } from "../utils/date-utils";
 import { getRepoPictures } from "../utils/repos-api";
@@ -11,6 +12,10 @@ const RepoPictures = () => {
     ["repo_pics", params],
     () => getRepoPictures(params.repo_id)
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

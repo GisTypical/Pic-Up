@@ -13,9 +13,9 @@ const Menu = ({ setShowMenu }) => {
     },
   });
   return (
-    <div className="absolute overflow-auto w-40 grid grid-flow-row md:right-6 lg:right-14 top-16 rounded-2xl bg-gray-700 divide-y-2 divide-gray-600 z-10">
+    <div className="absolute overflow-auto w-40 grid grid-flow-row md:right-6 lg:right-14 top-16 rounded-2xl bg-gray-800 divide-y-2 divide-gray-700 z-10">
       <Link
-        className="h-12 flex flex-row items-center text-left hover:bg-gray-600 group transition-colors ease-out"
+        className="h-12 flex flex-row items-center text-left hover:bg-gray-700 group transition-colors ease-out"
         to="/home/settings"
         onClick={() => setShowMenu(false)}
       >
@@ -27,7 +27,7 @@ const Menu = ({ setShowMenu }) => {
         <h6 className="flex-1 font-normal">Ajustes</h6>
       </Link>
       <button
-        className="h-12 flex flex-row items-center hover:bg-gray-600 group transition-colors ease-out"
+        className="h-12 flex flex-row items-center hover:bg-gray-700 group transition-colors ease-out"
         onClick={() => {
           userLogout();
         }}

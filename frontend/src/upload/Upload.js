@@ -5,6 +5,7 @@ import { postPicture } from "../utils/pictures-api";
 import { getRepos } from "../utils/repos-api";
 import UploadButton from "./UploadButton";
 import { useHistory } from "react-router-dom";
+import Loading from "../common/Loading";
 
 const PictureUpload = () => {
   const history = useHistory();
@@ -22,6 +23,10 @@ const PictureUpload = () => {
     uploadPic(formData);
     e.preventDefault();
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="grid place-items-center min-w-min">

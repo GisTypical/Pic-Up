@@ -1,6 +1,7 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useHistory } from "react-router-dom";
+import Loading from "./common/Loading";
 import Logo from "./common/Logo";
 import { user_login } from "./utils/user-api";
 
@@ -66,11 +67,7 @@ const Login = () => {
           </button>
 
           {/* Status messages */}
-          {mutation.isLoading && (
-            <p className="text-sm text-center">
-              Verificando datos, por favor espere...
-            </p>
-          )}
+          {mutation.isLoading && <Loading />}
           {mutation.isError && mutation.error.response.status === 401 && (
             <p className="text-sm text-center text-yellow-500 italic">
               Usuario y/o contraseña son incorrectos

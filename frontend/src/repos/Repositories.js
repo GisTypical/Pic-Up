@@ -5,11 +5,16 @@ import { getRepos } from "../utils/repos-api";
 import { sortReposByTime } from "../utils/date-utils";
 import NewRepo from "./NewRepo";
 import Repo from "./Repo";
+import Loading from "../common/Loading";
 
 const Repositories = () => {
   const [createRepo, setCreateRepo] = useState(false);
 
   let { isLoading, data: { data } = {} } = useQuery("repos", getRepos);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="grid grid-flow-row my-6 mx-14 place-items-center grid-cols-2 gap-y-8 lg:mx-28 lg:grid-cols-3">

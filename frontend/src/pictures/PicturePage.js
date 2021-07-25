@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import Loading from "../common/Loading";
 import { getPictureInfo } from "../utils/pictures-api";
 import Tag from "./Tag";
 
@@ -10,6 +11,11 @@ const PicturePage = () => {
     const a = await getPictureInfo(params.pic_id);
     return a.data;
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="grid place-items-center">
       {!isLoading && (

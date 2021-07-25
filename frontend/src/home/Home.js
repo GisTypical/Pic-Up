@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 import Settings from "./Settings";
 import PicturePage from "../pictures/PicturePage";
 import RepoPictures from "../pictures/RepoPictures";
+import Loading from "../common/Loading";
 
 const Home = () => {
   const { path } = useRouteMatch();
@@ -24,7 +25,7 @@ const Home = () => {
   });
 
   if (isLoading) {
-    return <p>Cargando...</p>;
+    return <Loading />;
   }
 
   console.log(history);
