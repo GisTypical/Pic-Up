@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getPictureInfo } from "../utils/pictures-api";
 import Tag from "./Tag";
 
-const ImagePage = () => {
+const PicturePage = () => {
   const params = useParams();
   const { data, isLoading } = useQuery(["pic_info", params], async () => {
     const a = await getPictureInfo(params.pic_id);
@@ -37,9 +37,9 @@ const ImagePage = () => {
                 {data.uploaded_date}
               </strong>
             </p>
-            <div class="flex space-x-2 truncate">
-              {data.tags.map((tag) => (
-                <Tag key={tag} tag={tag}></Tag>
+            <div class="flex space-x-2">
+              {data.tags.sort().map((tag) => (
+                <Tag key={tag} tag={tag} onClick={() => {}}></Tag>
               ))}
             </div>
           </div>
@@ -49,4 +49,4 @@ const ImagePage = () => {
   );
 };
 
-export default ImagePage;
+export default PicturePage;

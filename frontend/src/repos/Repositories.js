@@ -12,7 +12,7 @@ const Repositories = () => {
   let { isLoading, data: { data } = {} } = useQuery("repos", getRepos);
 
   return (
-    <div className="grid grid-flow-row mt-6 mx-14 place-items-center grid-cols-2 gap-y-8 lg:mx-28 lg:grid-cols-3">
+    <div className="grid grid-flow-row my-6 mx-14 place-items-center grid-cols-2 gap-y-8 lg:mx-28 lg:grid-cols-3">
       <article className="new-repo bg-gray-800 h-44 w-48 p-8 rounded-2xl text-center space-y-4 overflow-hidden">
         {createRepo ? (
           <NewRepo setCreateRepo={setCreateRepo}></NewRepo>

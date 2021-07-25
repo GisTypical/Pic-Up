@@ -7,7 +7,7 @@ import { user_loggedin } from "../utils/user-api";
 import HomePictures from "../pictures/HomePictures";
 import Navbar from "./Navbar";
 import Settings from "./Settings";
-import ImagePage from "../pictures/ImagePage";
+import PicturePage from "../pictures/PicturePage";
 import RepoPictures from "../pictures/RepoPictures";
 
 const Home = () => {
@@ -27,22 +27,27 @@ const Home = () => {
     return <p>Cargando...</p>;
   }
 
+  console.log(history);
+
   return (
     <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden selection:bg-green-500">
       <Navbar username={user.data}>
-        <input
-          className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
-          type="search"
-          name="search"
-          id="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Busque imágenes por tags"
-        />
+        {/* Search */}
+        {history.location.pathname === "/home" && (
+          <input
+            className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
+            type="search"
+            name="search"
+            id="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Busque imágenes por tags"
+          />
+        )}
       </Navbar>
       <Switch>
         <Route exact path={path}>
-          <HomePictures search={search}></HomePictures>
+          <HomePictures search={search} setSearch={setSearch}></HomePictures>
         </Route>
         <Route exact path={`${path}/repo`}>
           <Repositories></Repositories>
@@ -54,7 +59,7 @@ const Home = () => {
           <Upload></Upload>
         </Route>
         <Route path={`${path}/picture/:pic_id`}>
-          <ImagePage></ImagePage>
+          <PicturePage></PicturePage>
         </Route>
         <Route path={`${path}/repo/:repo_id`}>
           <RepoPictures></RepoPictures>

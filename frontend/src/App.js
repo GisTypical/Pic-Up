@@ -6,7 +6,7 @@ import Signup from "./Signup";
 
 function App() {
   return (
-    <div className="bg-gray-900 text-white h-screen tracking-wide">
+    <div className="h-screen">
       <Router>
         <Switch>
           <Route exact path="/">
