@@ -7,12 +7,12 @@ const Navbar = ({ username, children }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <nav className="grid grid-cols-1 place-items-center md:place-items-stretch md:grid-cols-3 py-4 lg:px-24 md:px-14">
+    <nav className="relative grid grid-cols-1 place-items-center md:place-items-stretch md:grid-cols-3 py-[15px] lg:px-20 md:px-11 text-sm font-bold">
       <div className="flex space-x-6 md:flex-none items-center">
         <Logo></Logo>
         <NavLink
-          className="hidden md:block"
-          activeClassName="text-green-500"
+          className="hidden md:block bg-green-500 py-2 px-2 rounded-lg text-gray-800 font-bold hover:bg-green-600 transition-colors ease-out"
+          activeClassName="text-green-500 bg-gray-900 hover:bg-transparent"
           to="/home/upload"
         >
           Nueva imagen
@@ -30,7 +30,7 @@ const Navbar = ({ username, children }) => {
           Repositorios
         </NavLink>
         <button
-          className="rounded-full h-10 w-10 flex items-center justify-center bg-green-500"
+          className="rounded-full h-[35px] w-[35px] flex items-center justify-center bg-green-500 hover:bg-green-600 hover:text-gray-200 transition-colors ease-out"
           onClick={() => {
             setShowMenu((state) => !state);
           }}

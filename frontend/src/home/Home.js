@@ -35,7 +35,7 @@ const Home = () => {
         {/* Search */}
         {history.location.pathname === "/home" ? (
           <input
-            className="flex-1 rounded-lg p-1 hidden mx-8 border-transparent bg-gray-700 md:block focus:ring-green-500 focus:border-green-500"
+            className="flex-1 rounded-lg py-1 px-4 hidden mx-8 border-transparent bg-gray-700 md:block focus:ring-green-500 focus:border-green-500"
             type="search"
             name="search"
             id="search"

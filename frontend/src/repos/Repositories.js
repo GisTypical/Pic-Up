@@ -26,7 +26,7 @@ const Repositories = () => {
               />
             </div>
             <button
-              className="font-bold rounded-lg py-2 text-gray-800 bg-green-500 outline-none w-full"
+              className="font-bold rounded-lg py-2 text-gray-800 bg-green-500 outline-none w-full hover:bg-green-600 transition-colors ease-out"
               onClick={() => setCreateRepo(true)}
             >
               Nuevo repo

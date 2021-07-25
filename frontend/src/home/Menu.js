@@ -1,11 +1,11 @@
+import { SignOut, UserGear } from "phosphor-react";
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { user_logout } from "../utils/user-api";
 
 const Menu = ({ setShowMenu }) => {
   const queryClient = useQueryClient();
-  const history = useHistory();
   const { mutate: userLogout } = useMutation(user_logout, {
     onSuccess: () => {
       queryClient.invalidateQueries("user");
@@ -13,23 +13,31 @@ const Menu = ({ setShowMenu }) => {
     },
   });
   return (
-    <div className="absolute grid grid-flow-row py-2 px-3 right-20 top-16 rounded-2xl bg-gray-700 divide-y-2 z-10">
-      <button
-        className="h-10"
-        onClick={() => {
-          setShowMenu(false);
-          history.replace(`/home/settings`);
-        }}
+    <div className="absolute overflow-auto w-40 grid grid-flow-row md:right-6 lg:right-14 top-16 rounded-2xl bg-gray-700 divide-y-2 divide-gray-600 z-10">
+      <Link
+        className="h-12 flex flex-row items-center text-left hover:bg-gray-600 group transition-colors ease-out"
+        to="/home/settings"
+        onClick={() => setShowMenu(false)}
       >
-        Ajustes
-      </button>
+        <UserGear
+          className="mx-4 group-hover:text-green-500 transition-colors ease-out"
+          weight="duotone"
+          size={24}
+        />
+        <h6 className="flex-1 font-normal">Ajustes</h6>
+      </Link>
       <button
-        className="h-10"
+        className="h-12 flex flex-row items-center hover:bg-gray-600 group transition-colors ease-out"
         onClick={() => {
           userLogout();
         }}
       >
-        Cerrar sesión
+        <SignOut
+          className="mx-4 group-hover:text-red-500 transition-colors ease-out"
+          size={24}
+          weight="duotone"
+        />
+        <h6 className="flex-1 text-left">Cerrar sesión</h6>
       </button>
     </div>
   );

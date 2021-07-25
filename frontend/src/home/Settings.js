@@ -60,7 +60,7 @@ const Settings = () => {
         </fieldset>
 
         <button
-          className="font-bold rounded-lg py-2 text-gray-800 bg-green-500 outline-none border-transparent border-2 focus:border-gray-800 focus:ring-2 focus:ring-green-400"
+          className="font-bold rounded-lg py-2 text-gray-800 bg-green-500 outline-none border-transparent border-2 focus:border-gray-800 focus:ring-2 focus:ring-green-400 hover:bg-green-600 transition-colors ease-out"
           type="submit"
         >
           Aceptar cambios
@@ -88,7 +88,7 @@ const Settings = () => {
             si está completamente de acuerdo.
           </h6>
           <button
-            className="font-bold rounded-lg py-2 text-gray-800 bg-red-500 outline-none border-transparent border-2 focus:border-gray-800 focus:ring-2 focus:ring-red-500 w-full"
+            className="font-bold rounded-lg py-2 text-gray-800 bg-red-500 outline-none border-transparent border-2 focus:border-gray-800 focus:ring-2 focus:ring-red-500 w-full hover:bg-red-600 transition-colors ease-out"
             onClick={() => handleDelete()}
           >
             Eliminar usuario

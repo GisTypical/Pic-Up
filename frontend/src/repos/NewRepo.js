@@ -8,15 +8,14 @@ const NewRepo = ({ setCreateRepo }) => {
 
   const { mutate: createRepo } = useMutation(postRepo, {
     onSuccess: () => {
-      setCreateRepo(false);
       queryClient.invalidateQueries("repos");
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setCreateRepo(false);
     if (!repo) {
-      setCreateRepo(false);
       return;
     }
     const data = {
