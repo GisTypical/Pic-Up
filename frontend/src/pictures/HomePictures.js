@@ -8,7 +8,7 @@ import Tag from "./Tag";
 const HomePictures = ({ search, setSearch }) => {
   const { data: { data } = {}, isLoading } = useQuery("pictures", getPicture);
   return (
-    <div className="grid grid-flow-row my-6 mx-14 place-items-center grid-cols-2 gap-y-8 lg:mx-28 lg:grid-cols-3">
+    <div className="grid grid-flow-row my-6 mx-14 place-items-center gap-y-8 grid-cols-1 md:grid-cols-2 lg:mx-28 lg:grid-cols-3">
       {!isLoading &&
         data.pictures
           .filter((pic) => {

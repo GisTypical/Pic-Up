@@ -7,18 +7,26 @@ const Navbar = ({ username, children }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <nav className="grid grid-flow-col py-4 px-24 items-center">
-      <div className="flex space-x-10 items-center">
+    <nav className="grid grid-cols-1 place-items-center md:place-items-stretch md:grid-cols-3 py-4 lg:px-24 md:px-14">
+      <div className="flex space-x-6 md:flex-none items-center">
         <Logo></Logo>
-        <NavLink activeClassName="text-green-500" to="/home/upload">
-          Subir una imagen
+        <NavLink
+          className="hidden md:block"
+          activeClassName="text-green-500"
+          to="/home/upload"
+        >
+          Nueva imagen
         </NavLink>
       </div>
 
       {children}
 
-      <div className="flex justify-end space-x-10 items-center">
-        <NavLink to={`/home/repo`} activeClassName="text-green-500">
+      <div className="flex-1 hidden space-x-6 md:flex justify-end items-center">
+        <NavLink
+          to={`/home/repo`}
+          className="hover:text-green-500 transition-colors ease-out"
+          activeClassName="text-green-500"
+        >
           Repositorios
         </NavLink>
         <button

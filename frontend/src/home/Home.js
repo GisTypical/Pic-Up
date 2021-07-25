@@ -33,16 +33,18 @@ const Home = () => {
     <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden selection:bg-green-500">
       <Navbar username={user.data}>
         {/* Search */}
-        {history.location.pathname === "/home" && (
+        {history.location.pathname === "/home" ? (
           <input
-            className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
+            className="flex-1 rounded-lg p-1 hidden mx-8 border-transparent bg-gray-700 md:block focus:ring-green-500 focus:border-green-500"
             type="search"
             name="search"
             id="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Busque imágenes por tags"
+            placeholder="Búsqueda por tags"
           />
+        ) : (
+          <div></div>
         )}
       </Navbar>
       <Switch>
