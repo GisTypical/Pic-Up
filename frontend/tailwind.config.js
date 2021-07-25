@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Manrope", ...defaultTheme.fontFamily.sans],
-        heading: ["Hind", ...defaultTheme.fontFamily.sans],
+        heading: ["Questrial", ...defaultTheme.fontFamily.sans],
       },
     },
   },

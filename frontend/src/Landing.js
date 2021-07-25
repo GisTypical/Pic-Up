@@ -27,7 +27,7 @@ const Landing = () => {
           <Link to="/login">Iniciar sesión</Link>
         </div>
       </nav>
-      <p>Estamos en el landing page</p>
+      <p>Un lugar donde guardar momentos es lo que vale</p>
     </div>
   );
 };

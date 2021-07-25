@@ -42,10 +42,16 @@ def user_loggedin():
     return '', 200
 
 
+"""
+User actions
+"""
+
 @user_bp.route('/api/user', methods=['PUT'])
 def update_user():
     data = request.json
-    db_user = User_account.query.filter_by(username=data['username']).first()
+
+    # Tomar username del session
+    db_user = User_account.query.filter_by(username=session['username']).first()
 
     if not data['full_name'] and not data['password']:
         return {'message': 'No changes were made'}, 400
@@ -62,9 +68,9 @@ def update_user():
     return {'message': 'Changes made successfully'}, 200
 
 
-@user_bp.route('/api/user/<username>', methods=['DELETE'])
-def user_delete(username):
-    db_user = User_account.query.filter_by(username=username).first()
+@user_bp.route('/api/user/', methods=['DELETE'])
+def user_delete():
+    db_user = User_account.query.filter_by(username=session['username']).first()
     db.session.delete(db_user)
     db.session.commit()
     session.pop('username')

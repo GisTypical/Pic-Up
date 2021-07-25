@@ -9,10 +9,11 @@ const Menu = ({ setShowMenu }) => {
   const { mutate: userLogout } = useMutation(user_logout, {
     onSuccess: () => {
       queryClient.invalidateQueries("user");
+      queryClient.removeQueries("repos");
     },
   });
   return (
-    <div className="absolute grid grid-flow-row py-2 px-3 right-20 top-16 rounded-2xl bg-gray-700 divide-y-2">
+    <div className="absolute grid grid-flow-row py-2 px-3 right-20 top-16 rounded-2xl bg-gray-700 divide-y-2 z-10">
       <button
         className="h-10"
         onClick={() => {

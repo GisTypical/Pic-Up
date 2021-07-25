@@ -23,7 +23,7 @@ const Login = () => {
   };
   return (
     <div className="grid place-items-center h-full">
-      <div>
+      <div class="super-centered-child">
         <div className="flex justify-center">
           <Logo></Logo>
         </div>
@@ -40,7 +40,7 @@ const Login = () => {
               type="text"
               name="username"
               id="username"
-              placeholder="p.e. gistypical"
+              placeholder="p.e. gerardo123"
               pattern="[\w]+"
               required
             />
@@ -60,7 +60,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="bg-green-500 rounded-lg py-2 outline-none border-2 border-transparent focus:border-2 focus:border-gray-800 focus:ring-2 focus:ring-green-400"
+            className="font-bold rounded-lg py-2 text-gray-800 bg-green-500 outline-none border-transparent border-2 focus:border-gray-800 focus:ring-2 focus:ring-green-400"
           >
             Iniciar sesión
           </button>

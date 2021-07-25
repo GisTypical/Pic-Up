@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import Repositories from "../repos/Repositories";
+import Upload from "../upload/Upload";
 import { user_loggedin } from "../utils/user-api";
+import HomePictures from "../pictures/HomePictures";
 import Navbar from "./Navbar";
-import Repositories from "./Repositories";
 import Settings from "./Settings";
+import ImagePage from "../pictures/ImagePage";
+import RepoPictures from "../pictures/RepoPictures";
 
 const Home = () => {
   const { path } = useRouteMatch();
   const history = useHistory();
+  const [search, setSearch] = useState("");
 
   const { data: user, isLoading } = useQuery("user", user_loggedin, {
     onSuccess: ({ data }) => {
@@ -23,17 +28,36 @@ const Home = () => {
   }
 
   return (
-    <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll">
-      <Navbar user={user.data}></Navbar>
+    <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden selection:bg-green-500">
+      <Navbar username={user.data}>
+        <input
+          className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
+          type="search"
+          name="search"
+          id="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Busque imágenes por tags"
+        />
+      </Navbar>
       <Switch>
         <Route exact path={path}>
-          <p>Estas logeado {user.data}</p>
+          <HomePictures search={search}></HomePictures>
+        </Route>
+        <Route exact path={`${path}/repo`}>
+          <Repositories></Repositories>
         </Route>
         <Route path={`${path}/settings`}>
-          <Settings user={user.data}></Settings>
+          <Settings></Settings>
         </Route>
-        <Route path={`${path}/repositories`}>
-          <Repositories user={user.data}></Repositories>
+        <Route path={`${path}/upload`}>
+          <Upload></Upload>
+        </Route>
+        <Route path={`${path}/picture/:pic_id`}>
+          <ImagePage></ImagePage>
+        </Route>
+        <Route path={`${path}/repo/:repo_id`}>
+          <RepoPictures></RepoPictures>
         </Route>
       </Switch>
     </div>
