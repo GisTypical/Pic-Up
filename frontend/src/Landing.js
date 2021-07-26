@@ -22,7 +22,7 @@ const Landing = () => {
   return (
     <div className="w-full">
       <nav className="flex items-center py-[15px] lg:px-20 md:px-14">
-        <Logo></Logo>
+        <Logo url={""}></Logo>
         <div className="flex-1 flex flex-row-reverse space-x-reverse space-x-10">
           <Link to="/signup">Registro</Link>
           <Link to="/login">Iniciar sesión</Link>

@@ -24,7 +24,7 @@ const Signup = () => {
     <div className="grid place-items-center h-full">
       <div>
         <div className="flex justify-center">
-          <Logo></Logo>
+          <Logo url=""></Logo>
         </div>
 
         <form

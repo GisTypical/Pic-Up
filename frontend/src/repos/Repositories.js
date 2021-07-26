@@ -2,7 +2,7 @@ import { FolderSimplePlus } from "phosphor-react";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getRepos } from "../utils/repos-api";
-import { sortReposByTime } from "../utils/date-utils";
+import { sortReposByTime } from "../utils/general-utils";
 import NewRepo from "./NewRepo";
 import Repo from "./Repo";
 import Loading from "../common/Loading";

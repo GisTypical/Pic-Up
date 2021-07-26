@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getDate } from "../utils/date-utils";
+import { getDate } from "../utils/general-utils";
 
 const Repo = ({ repo }) => {
   return (

@@ -9,7 +9,7 @@ const Navbar = ({ username, children }) => {
   return (
     <nav className="relative grid grid-cols-1 place-items-center md:place-items-stretch md:grid-cols-3 py-[15px] lg:px-20 md:px-11 text-sm font-bold">
       <div className="flex space-x-6 md:flex-none items-center">
-        <Logo></Logo>
+        <Logo url={"home"}></Logo>
         <NavLink
           className="hidden md:block bg-green-500 py-2 px-2 rounded-lg text-gray-800 font-bold hover:bg-green-600 transition-colors ease-out"
           activeClassName="text-green-500 bg-gray-900 hover:bg-transparent"

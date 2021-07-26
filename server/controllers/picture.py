@@ -44,12 +44,8 @@ def get_images():
     pics_db = Picture.query.all()
     for pic in pics_db:
         tag_list = []
-        if pic.tags: 
-            tag_list.append(pic.tags[0].tag_name)
-            if len(pic.tags) > 1:
-                tag_list.clear()
-                for i in range(2):
-                    tag_list.append(pic.tags[i].tag_name)
+        for tag in pic.tags:
+            tag_list.append(tag.tag_name)
             
         pic_list.append({
             'pic_id': pic.picture_id,

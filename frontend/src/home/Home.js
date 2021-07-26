@@ -28,8 +28,6 @@ const Home = () => {
     return <Loading />;
   }
 
-  console.log(history);
-
   return (
     <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden selection:bg-green-500">
       <Navbar username={user.data}>

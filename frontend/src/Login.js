@@ -26,7 +26,7 @@ const Login = () => {
     <div className="grid place-items-center h-full">
       <div class="super-centered-child">
         <div className="flex justify-center">
-          <Logo></Logo>
+          <Logo url=""></Logo>
         </div>
         <form
           className="px-10 py-8 mt-10 w-96 bg-gray-800 rounded-2xl flex flex-col space-y-4"
