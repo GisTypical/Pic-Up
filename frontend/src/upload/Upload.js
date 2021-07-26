@@ -72,7 +72,6 @@ const PictureUpload = () => {
             className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
             name="repo_id"
             id="repo_id"
-            required
           >
             {!isLoading ? (
               data.repos.map((repo) => (

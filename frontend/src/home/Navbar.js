@@ -12,7 +12,7 @@ const Navbar = ({ username, children }) => {
         <Logo url={"home"}></Logo>
         <NavLink
           className="hidden md:block bg-green-500 py-2 px-2 rounded-lg text-gray-800 font-bold hover:bg-green-600 transition-colors ease-out"
-          activeClassName="text-green-500 bg-gray-900 hover:bg-transparent"
+          activeClassName="text-green-600 bg-gray-900 bg-transparent hover:bg-transparent"
           to="/home/upload"
         >
           Nueva imagen
