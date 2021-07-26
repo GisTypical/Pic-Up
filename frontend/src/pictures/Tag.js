@@ -11,7 +11,7 @@ const Tag = ({ tag, onClick }) => {
         if (!digits.test(tag)) onClick();
       }}
     >
-      <span className="text-sm">{tag}</span>
+      <span className="text-sm truncate">{tag}</span>
     </p>
   );
 };

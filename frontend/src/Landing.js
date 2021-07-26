@@ -20,7 +20,7 @@ const Landing = () => {
   }
 
   return (
-    <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden">
+    <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full">
       <nav className="relative grid grid-flow-col items-center py-[15px] lg:px-20 md:px-11 text-sm font-bold">
         <Logo url={""}></Logo>
         <div className="flex-1 flex flex-row-reverse space-x-reverse space-x-10 items-center">

@@ -28,7 +28,7 @@ const HomePictures = ({ search, setSearch }) => {
             <PicComponent key={pic.pic_id} pic={pic}>
               {/* Picture body. Usando composition, no quiero hacer prop drilling*/}
               <div className="p-5 space-y-1 truncate">
-                <h4 className="group-hover:text-green-500 transition-colors duration-300 ease-out font-bold">
+                <h4 className="group-hover:text-green-500 transition-colors duration-300 ease-out font-bold truncate">
                   {pic.pic_name}
                 </h4>
                 <div className="space-y-2">

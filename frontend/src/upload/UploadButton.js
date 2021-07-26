@@ -1,7 +1,8 @@
 import { CheckCircle, Upload } from "phosphor-react";
 import React, { useRef } from "react";
+import Loading from "../common/Loading";
 
-const UploadButton = () => {
+const UploadButton = ({ isPosting }) => {
   const ref = useRef({ files: [] });
 
   return (
@@ -11,11 +12,15 @@ const UploadButton = () => {
     >
       {ref.current.files[0] ? (
         <>
-          <CheckCircle
-            className="text-green-500"
-            size={32}
-            weight="duotone"
-          ></CheckCircle>
+          {!isPosting ? (
+            <CheckCircle
+              className="text-green-500"
+              size={32}
+              weight="duotone"
+            ></CheckCircle>
+          ) : (
+            <Loading />
+          )}
           <p className="text-green-500 font-bold">
             {ref.current.files[0].name}
           </p>

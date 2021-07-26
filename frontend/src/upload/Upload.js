@@ -11,7 +11,7 @@ const PictureUpload = () => {
   const history = useHistory();
   const { data: { data } = {}, isLoading } = useQuery("repos", getRepos);
 
-  const { mutate: uploadPic } = useMutation(postPicture, {
+  const { mutate: uploadPic, isLoading: isPosting } = useMutation(postPicture, {
     onSuccess: () => {
       history.push("/home");
     },
@@ -29,9 +29,9 @@ const PictureUpload = () => {
   }
 
   return (
-    <div className="grid place-items-center min-w-min">
+    <div className="grid place-items-center">
       <CardForm onSubmit={onSubmit}>
-        <UploadButton></UploadButton>
+        <UploadButton isPosting={isPosting} />
 
         <fieldset className="flex flex-col space-y-1">
           <label className="heading font-bold" htmlFor="pic_name">
@@ -52,7 +52,7 @@ const PictureUpload = () => {
             Tags
           </label>
           <label className="mt text-xs opacity-60" htmlFor="pic_name">
-            Separados por comas
+            Separados por comas y espacios
           </label>
           <input
             className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
@@ -67,6 +67,9 @@ const PictureUpload = () => {
         <fieldset className="flex flex-col space-y-1">
           <label className="heading font-bold" htmlFor="pic_name">
             Repositorio
+          </label>
+          <label className="text-xs text-gray-300 font-bold">
+            En caso de no tener repo, se creará un nuevo repo llamado "General"
           </label>
           <select
             className="rounded-lg border-transparent bg-gray-700 focus:ring-green-500 focus:border-green-500"
