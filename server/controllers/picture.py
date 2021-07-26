@@ -26,12 +26,12 @@ def picture_create():
         db.session.commit()
         picture = Picture(repo_id=repo.repo_id,
                         pic_name=data['pic_name'], img_path=file_name)
+        db.session.add(repo)
 
     else:
         picture = Picture(repo_id=data['repo_id'],
                         pic_name=data['pic_name'], img_path=file_name)
 
-    db.session.add(repo)
     db.session.add(picture)
     db.session.commit()
 
