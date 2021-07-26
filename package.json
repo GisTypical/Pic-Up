@@ -4,7 +4,7 @@
   "description": "Repositorio de imágenes",
   "main": "index.js",
   "engines": {
-    "node": "14.16.x"
+    "node": "14.16.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
