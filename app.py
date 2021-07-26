@@ -1,13 +1,13 @@
 import os
 
-from dotenv import load_dotenv
-from flask import Flask, session
+# from dotenv import load_dotenv
+from flask import Flask
 from flask.helpers import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 
 from Config import *
 
-load_dotenv()
+# load_dotenv()
 
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
@@ -17,9 +17,9 @@ db = SQLAlchemy(app)
 
 app.secret_key = os.environ['SECRET_KEY']
 
-from server.controllers.user import user_bp
 from server.controllers.picture import picture_bp
 from server.controllers.repository import repository_bp
+from server.controllers.user import user_bp
 
 """
 En el caso de que se haga una petición a una ruta que el backend no conoce
