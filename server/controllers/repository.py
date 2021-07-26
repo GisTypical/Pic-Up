@@ -54,7 +54,6 @@ def repo_pictures(repo_id):
 
 @repository_bp.route('/api/repos', methods=['DELETE'])
 def delete_repo():
-    print(request.content_type)
     data = request.json
     user = Repository.query.filter_by(repo_id=data['repo_id']).first()
     if not user:

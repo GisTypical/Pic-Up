@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import Loading from "../common/Loading";
 import PicComponent from "../common/PicComponent";
-import { getDate, processTags } from "../utils/general-utils";
+import { getDate, processPictures, processTags } from "../utils/general-utils";
 import { deleteRepo, getRepoPictures } from "../utils/repos-api";
 import Tag from "./Tag";
 
@@ -39,7 +39,7 @@ const RepoPictures = () => {
     <>
       {!isLoading && (
         <>
-          <div className="grid grid-flow-row mx-14 place-items-center grid-cols-2 gap-y-8 lg:mx-28 lg:grid-cols-3">
+          <div className="grid grid-flow-row my-6 mx-14 place-items-center grid-cols-2 gap-y-8 lg:mx-28 lg:grid-cols-3">
             <h2 className="absolute heading text-xl font-bold top-5 md:hidden lg:block auto w-1/2 text-center truncate hidden md:block">
               {data.repo_name}
             </h2>
@@ -50,18 +50,18 @@ const RepoPictures = () => {
               >
                 Borrar repo
               </button>
-              <div className="absolute hidden group-hover:block bg-gray-800 py-2 px-2 mt-3 transition text-sm w-48 rounded-lg">
+              <div className="absolute hidden group-hover:block bg-gray-800 py-2 px-2 mt-3 transition text-sm w-48 rounded-lg z-10">
                 Esto resultará en la eliminación de{" "}
                 <strong className="text-red-500">
                   todas las imágenes de este repo{" "}
                 </strong>
               </div>
             </div>
-            {data.pictures.map((pic) => (
+            {processPictures(data).map((pic) => (
               <PicComponent key={pic.pic_id} pic={pic}>
                 {/* Picture body. Composition para asignar onClick */}
                 <div className="p-5 space-y-1 truncate">
-                  <h4 className="group-hover:text-green-500 transition-colors duration-300 ease-out font-bold">
+                  <h4 className="group-hover:text-green-500 transition-colors duration-300 ease-out font-bold truncate">
                     {pic.pic_name}
                   </h4>
                   <div className="space-y-2">

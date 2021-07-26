@@ -13,6 +13,7 @@ app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# SqlAlchemy ya no admite postgres:// se debe llevar a postgresql://
 uri = os.environ['DATABASE_URL']
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
@@ -45,7 +46,6 @@ def index():
 
 @app.route('/uploads/<path:name>', methods=['GET'])
 def send_img(name):
-    print(os.path.join(app.root_path, 'server', 'uploads'))
     return send_from_directory(os.path.join(app.root_path, 'server', 'uploads'), name, as_attachment=False)
 
 # Blueprints que permiten separar el server en componentes

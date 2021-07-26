@@ -2,7 +2,7 @@ import { FolderSimplePlus } from "phosphor-react";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getRepos } from "../utils/repos-api";
-import { sortReposByTime } from "../utils/general-utils";
+import { sortByTime } from "../utils/general-utils";
 import NewRepo from "./NewRepo";
 import RepoCard from "./RepoCard";
 import Loading from "../common/Loading";
@@ -40,7 +40,7 @@ const Repositories = () => {
         )}
       </article>
       {!isLoading ? (
-        sortReposByTime(data.repos).map((repo) => (
+        sortByTime(data.repos).map((repo) => (
           <RepoCard key={repo.repo_id} repo={repo}></RepoCard>
         ))
       ) : (

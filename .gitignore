@@ -5,6 +5,9 @@
 node_modules/
 build/
 
+# Dejar que Heroku lo instale al hacer deploy
+package-lock.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
