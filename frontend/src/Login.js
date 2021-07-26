@@ -1,6 +1,6 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Loading from "./common/Loading";
 import Logo from "./common/Logo";
 import { user_login } from "./utils/user-api";
@@ -65,6 +65,13 @@ const Login = () => {
           >
             Iniciar sesión
           </button>
+
+          <p className="mt text-xs text-gray-400 font-bold text-center">
+            ¿No tienes cuenta?{" "}
+            <Link className="text-green-500" to="/signup">
+              Regístrate
+            </Link>
+          </p>
 
           {/* Status messages */}
           {mutation.isLoading && <Loading />}

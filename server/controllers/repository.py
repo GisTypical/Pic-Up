@@ -51,3 +51,14 @@ def repo_pictures(repo_id):
         })
 
     return {'pictures': pic_list, 'repo_name':repo_db.repo_name }
+
+@repository_bp.route('/api/repos', methods=['DELETE'])
+def delete_repo():
+    print(request.content_type)
+    data = request.json
+    user = Repository.query.filter_by(repo_id=data['repo_id']).first()
+    if not user:
+        return {'message': 'No repo found'}, 400
+    db.session.delete(user)
+    db.session.commit()
+    return {'message': 'Repo deleted'}

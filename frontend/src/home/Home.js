@@ -29,7 +29,7 @@ const Home = () => {
   }
 
   return (
-    <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden selection:bg-green-500">
+    <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full overflow-y-scroll overflow-hidden">
       <Navbar username={user.data}>
         {/* Search */}
         {history.location.pathname === "/home" ? (

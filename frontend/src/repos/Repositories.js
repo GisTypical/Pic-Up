@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { getRepos } from "../utils/repos-api";
 import { sortReposByTime } from "../utils/general-utils";
 import NewRepo from "./NewRepo";
-import Repo from "./Repo";
+import RepoCard from "./RepoCard";
 import Loading from "../common/Loading";
 
 const Repositories = () => {
@@ -41,7 +41,7 @@ const Repositories = () => {
       </article>
       {!isLoading ? (
         sortReposByTime(data.repos).map((repo) => (
-          <Repo key={repo.repo_id} repo={repo}></Repo>
+          <RepoCard key={repo.repo_id} repo={repo}></RepoCard>
         ))
       ) : (
         <p>Cargando sus repositorios...</p>

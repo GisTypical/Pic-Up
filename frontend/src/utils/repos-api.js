@@ -11,3 +11,11 @@ export const postRepo = (repo) => {
 export const getRepoPictures = (repo) => {
   return axios.get(`/api/repos/${repo}`);
 };
+
+export const deleteRepo = (repo) => {
+  return axios({
+    method: "delete",
+    url: "/api/repos",
+    data: repo,
+  });
+};

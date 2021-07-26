@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getDate } from "../utils/general-utils";
 
-const Repo = ({ repo }) => {
+const RepoCard = ({ repo }) => {
   return (
     <article className="bg-gray-800 flex flex-col justify-center h-44 w-48 p-6 rounded-2xl text-center space-y-4 break-words group">
       <h4 className="font-heading font-bold tracking-widest truncate">
@@ -23,4 +23,4 @@ const Repo = ({ repo }) => {
   );
 };
 
-export default Repo;
+export default RepoCard;
