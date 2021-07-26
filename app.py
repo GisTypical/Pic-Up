@@ -12,6 +12,12 @@ from Config import *
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+uri = os.environ['DATABASE_URL']
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+    
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config.from_object(DevelopmentConfig)
 db = SQLAlchemy(app)
 
