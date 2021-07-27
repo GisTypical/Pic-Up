@@ -21,5 +21,5 @@ export const user_update = (user) => {
 };
 
 export const user_delete = () => {
-  return axios.delete(`/api/user/`);
+  return axios.delete("/api/user/");
 };

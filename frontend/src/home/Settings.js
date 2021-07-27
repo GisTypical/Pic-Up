@@ -4,10 +4,16 @@ import { useHistory } from "react-router-dom";
 import CardForm from "../common/CardForm";
 import Loading from "../common/Loading";
 import { user_delete, user_update } from "../utils/user-api";
+import { useQueryClient } from "react-query";
 
-const Settings = () => {
+const Settings = ({ user: full_name }) => {
   const history = useHistory();
-  const { mutate: updateUser, status } = useMutation(user_update);
+  const queryClient = useQueryClient();
+  const { mutate: updateUser, status } = useMutation(user_update, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("user");
+    },
+  });
   const { mutate: deleteUser } = useMutation(user_delete, {
     onSuccess: () => {
       history.push("/");
@@ -31,6 +37,9 @@ const Settings = () => {
         <h1 className="font-heading font-bold tracking-widest text-xl text-center">
           Ajustes
         </h1>
+        <p className="text-sm overflow-ellipsis">
+          Hola {full_name}, ¿Que cambios desea realizar?
+        </p>
         <fieldset className="flex flex-col space-y-1">
           <h2 className="font-heading font-bold tracking-widest text-center">
             Perfil

@@ -42,7 +42,7 @@ const Landing = () => {
         <div className="flex flex-col py-28 px-12 font-bold subpixel-antialiased space-y-5">
           <p className="font-heading text-5xl lg:text-[62px] leading-[0.95em]">
             Un lugar donde{" "}
-            <string className="text-green-500">guardar momentos</string> es lo
+            <strong className="text-green-500">guardar momentos</strong> es lo
             que vale.
           </p>
           <p className="text-gray-500">

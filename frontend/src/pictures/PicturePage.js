@@ -27,7 +27,7 @@ const PicturePage = () => {
             <h1 className="font-heading font-bold text-xl">{data.pic_name}</h1>
             {!error ? (
               <img
-                className="transform group-hover:scale-110 transition-transform ease-out duration-300"
+                className="transform group-hover:scale-110 transition-transform ease-out duration-300 rounded-lg"
                 onError={() => {
                   setError(true);
                 }}
