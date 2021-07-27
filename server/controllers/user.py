@@ -41,6 +41,11 @@ def user_loggedin():
         return session['username'], 200
     return '', 200
 
+@user_bp.route('/api/user', methods=['GET'])
+def user_fullname():
+    user_db = User_account.query.filter_by(username=session['username']).first()
+    return {'full_name': user_db.full_name}, 200
+
 
 """
 User actions
@@ -68,7 +73,7 @@ def update_user():
     return {'message': 'Changes made successfully'}, 200
 
 
-@user_bp.route('/api/user/', methods=['DELETE'])
+@user_bp.route('/api/user', methods=['DELETE'])
 def user_delete():
     db_user = User_account.query.filter_by(username=session['username']).first()
     db.session.delete(db_user)

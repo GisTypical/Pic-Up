@@ -68,7 +68,7 @@ def get_images():
 
     return {'pictures': pic_list}
 
-@picture_bp.route('/api/picture/<string:pic_id>')
+@picture_bp.route('/api/picture/<string:pic_id>', methods=['GET'])
 def picture_info(pic_id):
     pic_db = Picture.query.filter_by(picture_id=pic_id).first()
     tag_list = []
@@ -82,3 +82,11 @@ def picture_info(pic_id):
         'uploaded_date': pic_db.uploaded_date,
         'img_path': pic_db.img_path
     }
+
+@picture_bp.route('/api/picture', methods=['DELETE'])
+def delete_pic():
+    data = request.json
+    pic_db = Picture.query.filter_by(picture_id=data['pic_id']).first()
+    db.session.delete(pic_db)
+    db.session.commit()
+    return {'message': 'Picture deleted'}, 200

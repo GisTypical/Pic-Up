@@ -60,7 +60,7 @@ const Home = () => {
           <Upload></Upload>
         </Route>
         <Route path={`${path}/picture/:pic_id`}>
-          <PicturePage></PicturePage>
+          <PicturePage username={user.data}></PicturePage>
         </Route>
         <Route path={`${path}/repo/:repo_id`}>
           <RepoPictures></RepoPictures>

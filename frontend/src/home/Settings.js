@@ -1,17 +1,20 @@
 import React from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import CardForm from "../common/CardForm";
 import Loading from "../common/Loading";
-import { user_delete, user_update } from "../utils/user-api";
+import { get_full_name, user_delete, user_update } from "../utils/user-api";
 import { useQueryClient } from "react-query";
 
-const Settings = ({ user: full_name }) => {
+const Settings = () => {
   const history = useHistory();
   const queryClient = useQueryClient();
+
+  const { data, isLoading } = useQuery("full_name", get_full_name);
+
   const { mutate: updateUser, status } = useMutation(user_update, {
     onSuccess: () => {
-      queryClient.invalidateQueries("user");
+      queryClient.invalidateQueries("full_name");
     },
   });
   const { mutate: deleteUser } = useMutation(user_delete, {
@@ -31,6 +34,10 @@ const Settings = ({ user: full_name }) => {
     deleteUser();
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="grid place-items-center">
       <CardForm onSubmit={onSubmit}>
@@ -38,7 +45,7 @@ const Settings = ({ user: full_name }) => {
           Ajustes
         </h1>
         <p className="text-sm overflow-ellipsis">
-          Hola {full_name}, ¿Que cambios desea realizar?
+          Hola {data.data.full_name}, ¿Desea cambiar algo?
         </p>
         <fieldset className="flex flex-col space-y-1">
           <h2 className="font-heading font-bold tracking-widest text-center">
@@ -92,8 +99,7 @@ const Settings = ({ user: full_name }) => {
             <strong className="text-red-500">
               eliminación de repositorios
             </strong>{" "}
-            y <strong className="text-red-500">fotos subidas</strong>. Proceda
-            si está completamente de acuerdo.
+            y <strong className="text-red-500">fotos subidas</strong>.
           </h6>
           <button
             className="font-bold rounded-lg py-2 text-gray-800 bg-red-500 outline-none border-transparent border-2 focus:border-gray-800 focus:ring-2 focus:ring-red-500 w-full hover:bg-red-600 transition-colors ease-out"

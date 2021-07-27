@@ -21,5 +21,9 @@ export const user_update = (user) => {
 };
 
 export const user_delete = () => {
-  return axios.delete("/api/user/");
+  return axios.delete("/api/user");
+};
+
+export const get_full_name = () => {
+  return axios.get("/api/user");
 };
