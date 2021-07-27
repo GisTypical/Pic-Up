@@ -1,7 +1,7 @@
 import os
 
 # from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, session
 from flask.helpers import send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 
@@ -38,7 +38,6 @@ mediante react-router
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
-
 
 @app.route('/', methods=['GET'])
 def index():

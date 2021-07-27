@@ -16,6 +16,7 @@ def picture_create():
 
 @repository_bp.route('/api/repos', methods=["GET"])
 def get_repos():
+    if not 'username' in session: return '', 401 
     repos = Repository.query.filter_by(username=session['username']).all()
     repo_list = []
     for repo in repos:
