@@ -1,14 +1,15 @@
-import React from "react";
 import { ArrowFatUp } from "phosphor-react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
-const Logo = ({ url }) => {
+const Logo = ({ url, setSearch }) => {
   const history = useHistory();
   return (
     <figure
       className="logo flex items-center tracking-widest cursor-pointer"
       onClick={() => {
         history.push(`/${url}`);
+        setSearch("");
       }}
     >
       <h1 class="font-heading font-bold">

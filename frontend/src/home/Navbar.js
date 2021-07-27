@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../common/Logo";
 import Menu from "./Menu";
 
-const Navbar = ({ username, children }) => {
+const Navbar = ({ username, children, logo }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
     <nav className="relative grid grid-cols-1 place-items-center md:place-items-stretch md:grid-cols-3 py-[15px] lg:px-20 md:px-11 text-sm font-bold">
       <div className="flex space-x-6 md:flex-none items-center">
-        <Logo url={"home"}></Logo>
+        {logo}
         <NavLink
           className="hidden md:block bg-green-500 py-2 px-2 rounded-lg text-gray-800 font-bold hover:bg-green-600 transition-colors ease-out"
           activeClassName="text-green-600 bg-gray-900 bg-transparent hover:bg-transparent"

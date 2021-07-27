@@ -34,9 +34,9 @@ const PicturePage = ({ username }) => {
 
   return (
     <div className="grid place-items-center">
-      {!isLoading && (
-        <article className="flex flex-row bg-gray-800 rounded-2xl p-10 w-[650px]">
-          <div className="flex flex-col w-1/2 justify-center space-y-1">
+      {
+        <article className="flex flex-row bg-gray-800 rounded-2xl py-10 px-8 w-[700px]">
+          <div className="flex flex-col w-1/2 justify-center space-y-2 ml-3">
             <h1 className="font-heading font-bold text-xl">{data.pic_name}</h1>
             {!error ? (
               <img
@@ -53,7 +53,7 @@ const PicturePage = ({ username }) => {
               </figure>
             )}
           </div>
-          <div className="flex-1 flex flex-col space-y-5 px-16 justify-center">
+          <div className="flex-1 flex flex-col space-y-5 ml-14 px-4 justify-center">
             <p>
               Subido por:
               <br />
@@ -68,7 +68,8 @@ const PicturePage = ({ username }) => {
                 {data.uploaded_date}
               </strong>
             </p>
-            <div class="flex space-x-2">
+            {/* Tags */}
+            <div class="flex flex-wrap space-x-2">
               {data.tags.sort().map((tag) => (
                 <Tag key={tag} tag={tag} onClick={() => {}}></Tag>
               ))}
@@ -83,7 +84,7 @@ const PicturePage = ({ username }) => {
             )}
           </div>
         </article>
-      )}
+      }
     </div>
   );
 };

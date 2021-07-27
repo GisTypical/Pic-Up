@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import Loading from "../common/Loading";
+import Logo from "../common/Logo";
+import HomePictures from "../pictures/HomePictures";
+import PicturePage from "../pictures/PicturePage";
+import RepoPictures from "../pictures/RepoPictures";
 import Repositories from "../repos/Repositories";
 import Upload from "../upload/Upload";
 import { user_loggedin } from "../utils/user-api";
-import HomePictures from "../pictures/HomePictures";
 import Navbar from "./Navbar";
 import Settings from "./Settings";
-import PicturePage from "../pictures/PicturePage";
-import RepoPictures from "../pictures/RepoPictures";
-import Loading from "../common/Loading";
 
 const Home = () => {
   const { path } = useRouteMatch();
@@ -30,7 +31,10 @@ const Home = () => {
 
   return (
     <div className="grid grid-flow-row grid-rows-[auto,1fr] h-full">
-      <Navbar username={user.data}>
+      <Navbar
+        username={user.data}
+        logo={<Logo setSearch={setSearch} url={"home"}></Logo>}
+      >
         {/* Search */}
         {history.location.pathname === "/home" ? (
           <input
