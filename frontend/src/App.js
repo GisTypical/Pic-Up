@@ -10,17 +10,21 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Landing></Landing>
+            <Landing />
           </Route>
+
           <Route path="/home">
-            <Home></Home>
+            <Home />
           </Route>
+
           <Route path="/login">
-            <Login></Login>
+            <Login />
           </Route>
+
           <Route path="/signup">
-            <Signup></Signup>
+            <Signup />
           </Route>
+
           <Route path="*">404</Route>
         </Switch>
       </Router>
