@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import Loading from "../common/Loading";
+import { getDate } from "../utils/general-utils";
 import { deletePicture, getPictureInfo } from "../utils/pictures-api";
 import Tag from "./Tag";
 
@@ -65,7 +66,7 @@ const PicturePage = ({ username }) => {
               Fecha de subida:
               <br />
               <strong className="font-bold text-green-500">
-                {data.uploaded_date}
+                {getDate(data.uploaded_date)}
               </strong>
             </p>
             {/* Tags */}
