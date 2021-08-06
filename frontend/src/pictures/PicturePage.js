@@ -77,7 +77,7 @@ const PicturePage = ({ username }) => {
             </div>
             {username === data.username && (
               <button
-                className="bg-red-500 px-3 py-2 text-sm font-bold text-gray-700 rounded-lg"
+                className="bg-red-500 px-3 py-2 text-sm font-bold text-gray-800 rounded-lg"
                 onClick={handleClick}
               >
                 Eliminar imagen
