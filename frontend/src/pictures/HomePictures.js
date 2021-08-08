@@ -18,7 +18,7 @@ const HomePictures = ({ search, setSearch }) => {
       {/* Images loading & filtering */}
       {processPictures(data, search).map((pic) => (
         <PicComponent key={pic.pic_id} pic={pic}>
-          {/* Picture body. Usando composition */}
+          {/* Picture body. using composition */}
           <div className="p-5 space-y-1 truncate">
             <h4 className="group-hover:text-green-500 transition-colors duration-300 ease-out font-bold truncate">
               {pic.pic_name}

@@ -59,7 +59,7 @@ const RepoPictures = () => {
             </div>
             {processPictures(data).map((pic) => (
               <PicComponent key={pic.pic_id} pic={pic}>
-                {/* Picture body. Composition para asignar onClick */}
+                {/* Picture body. Using composition for passing onClick */}
                 <div className="p-5 space-y-1 truncate">
                   <h4 className="group-hover:text-green-500 transition-colors duration-300 ease-out font-bold truncate">
                     {pic.pic_name}
