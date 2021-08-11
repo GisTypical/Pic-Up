@@ -17,9 +17,9 @@ export const sortByTime = (repos) => {
 /**
  * Takes all the images, filter them based on the search
  * and orders them by date.
- * @param {Array.<Object>} data picture data
+ * @param {Array} data picture data
  * @param {String} search
- * @returns sorted pictures
+ * @returns {Array} sorted pictures
  */
 export const processPictures = (data, search = "") => {
   let pics = data.pictures.filter((pic) => {
@@ -27,7 +27,7 @@ export const processPictures = (data, search = "") => {
     if (!search) {
       return true;
     }
-    return pic.tags.includes(search.toLowerCase());
+    return pic.tags.some((tag) => tag.includes(search.toLowerCase()));
   });
 
   return pics.sort(
