@@ -28,7 +28,7 @@ requirements.txt
 package.json
 ```
 
-## Build source
+## Build
 
 First install corresponding packages
 
@@ -42,4 +42,22 @@ pip install -r requirements.txt
 
 ```
 npm run install-front
+```
+
+## Database (Postgres - SQLAlchemy)
+
+Create database tables initial 
+```
+from yourapplication import db
+db.create_all()
+```
+
+Upgrade database and apply changes from migrations
+```
+flask db upgrade
+```
+
+Generate a new database migration which detects model changes
+```
+flask db migrate -m "mensaje"
 ```
