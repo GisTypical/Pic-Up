@@ -14,7 +14,9 @@ class Picture(db.Model):
     repo_id = db.Column(UUID(as_uuid=True), db.ForeignKey('repository.repo_id', ondelete='cascade'), nullable=False)
     tags = db.relationship('Tag', secondary=tags, cascade='all, delete', lazy='subquery', backref=db.backref('pictures', lazy=True))
     pic_name = db.Column(db.String, nullable=False)
-    img_path = db.Column(db.String, nullable=False)
+    img_path = db.Column(db.String)
+    public_id = db.Column(db.String)
+    secure_url = db.Column(db.String)
     uploaded_date = db.Column(db.DateTime, default=datetime.now)
 
 class Tag(db.Model):

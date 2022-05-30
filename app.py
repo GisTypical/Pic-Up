@@ -1,26 +1,30 @@
 import os
 
 # from dotenv import load_dotenv
-from flask import Flask, session
+from flask import Flask
 from flask.helpers import send_from_directory
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from Config import *
 
 # load_dotenv()
 
+# Load flask, setting static folder for loading React App
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # SqlAlchemy ya no admite postgres:// se debe llevar a postgresql://
 uri = os.environ['DATABASE_URL']
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
     
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config.from_object(DevelopmentConfig)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db);
 
 app.secret_key = os.environ['SECRET_KEY']
 
@@ -33,7 +37,6 @@ En el caso de que se haga una petición a una ruta que el backend no conoce
 se envía el index.html, React va a tomar el url y sabrá a donde llevar al usuario
 mediante react-router
 """
-
 
 @app.errorhandler(404)
 def not_found(e):
