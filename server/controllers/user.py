@@ -9,8 +9,13 @@ user_bp = Blueprint('user_bp', __name__)
 @user_bp.route('/api/signup', methods=['POST'])
 def user_signup():
     data = request.json
-    duplicate = User_account.query.filter_by(username=data['username']).first()
 
+    # Check if all data was sended
+    if not 'username' in data or not 'full_name' in data or not 'password' in data:
+        return {'message': 'Properties are missing on body.'}, 400
+    
+    # Check if username is duplicate
+    duplicate = User_account.query.filter_by(username=data['username']).first()
     if duplicate:
         return {'message': 'Username already exists'}, 409
 
@@ -19,7 +24,8 @@ def user_signup():
         username=data['username'], full_name=data['full_name'], password=hashed_pass.decode())
     db.session.add(user)
     db.session.commit()
-    return {'message': 'User created'}, 201
+    
+    return {'message': 'User successfully created'}, 201
 
 
 @user_bp.route('/api/login', methods=['POST'])
