@@ -1,16 +1,17 @@
 {
   "name": "pic-up",
   "version": "1.0.0",
-  "description": "Repositorio de imágenes",
+  "description": "Images repository",
   "main": "index.js",
   "engines": {
     "node": "14.16.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build",
+    "install-front": "cd frontend && npm install"
   },
   "keywords": [],
-  "author": "GisTypical",
+  "author": "gistypical",
   "license": "ISC"
 }
