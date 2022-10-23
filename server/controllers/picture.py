@@ -6,36 +6,46 @@ from flask import Blueprint, request, session
 from server.models.picture import Picture, Tag
 from server.models.repository import Repository
 from werkzeug.utils import secure_filename
+from apifairy import body, other_responses, response
 
-picture_bp = Blueprint('picture_bp', __name__)
+from server.schemas import ListPicturesSchema, PictureSchema
+
+picture = Blueprint('picture', __name__)
+picture_schema = PictureSchema(only=['repo_id', 'pic_name', 'tags', 'picture'])
+list_pictures_schema = ListPicturesSchema()
+picture_info_schema = PictureSchema()
 
 upload_path = os.path.abspath('server/uploads')
 
 
-@picture_bp.route('/api/picture', methods=['POST'])
-def picture_create():
-    data = request.form
+@picture.route('/api/picture', methods=['POST'])
+@body(picture_schema)
+def picture_create(picture):
+    """Create a new picture
+
+    If the repository does not exist, create a Default repository
+    """
     f = request.files['picture']
     file_name = f'{randint(0,10000)}{secure_filename(f.filename)}'
     img_path = os.path.join(upload_path, file_name)
     f.save(img_path)
 
-    if not 'repo_id' in data:
-        repo = Repository(username=session['username'], repo_name='General')
+    if not 'repo_id' in picture:
+        repo = Repository(username=session['username'], repo_name='Default')
         db.session.add(repo)
         db.session.commit()
         picture = Picture(repo_id=repo.repo_id,
-                        pic_name=data['pic_name'], img_path=file_name)
+                        pic_name=picture['pic_name'], img_path=file_name)
         db.session.add(repo)
 
     else:
-        picture = Picture(repo_id=data['repo_id'],
-                        pic_name=data['pic_name'], img_path=file_name)
+        picture = Picture(repo_id=picture['repo_id'],
+                        pic_name=picture['pic_name'], img_path=file_name)
 
     db.session.add(picture)
     db.session.commit()
 
-    tags = data['tags'].split(', ')
+    tags = picture['tags'].split(', ')
     for tag in tags:
         db_tag = Tag.query.filter_by(tag_name=tag).first()
         if db_tag:
@@ -49,8 +59,11 @@ def picture_create():
     return {'message': 'Picture created'}, 201
 
 
-@ picture_bp.route('/api/picture', methods=['GET'])
+@ picture.route('/api/picture', methods=['GET'])
+@response(list_pictures_schema)
 def get_images():
+    """Get all uploaded images"""
+
     pic_list = []
     pics_db = Picture.query.all()
     for pic in pics_db:
@@ -68,8 +81,10 @@ def get_images():
 
     return {'pictures': pic_list}
 
-@picture_bp.route('/api/picture/<string:pic_id>', methods=['GET'])
+@picture.route('/api/picture/<string:pic_id>', methods=['GET'])
+@response(picture_info_schema)
 def picture_info(pic_id):
+    """Get picture info"""
     pic_db = Picture.query.filter_by(picture_id=pic_id).first()
     tag_list = []
     for tag in pic_db.tags:
@@ -83,8 +98,10 @@ def picture_info(pic_id):
         'img_path': pic_db.img_path
     }
 
-@picture_bp.route('/api/picture', methods=['DELETE'])
+@picture.route('/api/picture', methods=['DELETE'])
+@other_responses({200: 'Picture deleted'})
 def delete_pic():
+    """Delete a picture"""
     data = request.json
     pic_db = Picture.query.filter_by(picture_id=data['pic_id']).first()
     db.session.delete(pic_db)

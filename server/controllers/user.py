@@ -1,94 +1,117 @@
 import bcrypt
+from apifairy import body, other_responses, response
 from app import db
-from flask import Blueprint, request, session
+from flask import Blueprint, session
 from server.models.user import User_account
+from server.schemas import LoginSchema, UpdateSchema, UserFullNameSchema, UserSchema
 
-user_bp = Blueprint('user_bp', __name__)
+user = Blueprint("user", __name__)
+sign_up_schema = UserSchema()
+login_schema = LoginSchema()
+full_name_schema = UserFullNameSchema()
+update_schema = UpdateSchema()
 
 
-@user_bp.route('/api/signup', methods=['POST'])
-def user_signup():
-    data = request.json
+@user.route("/api/signup", methods=["POST"])
+@body(sign_up_schema)
+@other_responses({201: "User successfully created", 409: "Username already exists"})
+def user_signup(user):
+    """Register a new user"""
 
-    # Check if all data was sended
-    if not 'username' in data or not 'full_name' in data or not 'password' in data:
-        return {'message': 'Properties are missing on body.'}, 400
-    
-    # Check if username is duplicate
-    duplicate = User_account.query.filter_by(username=data['username']).first()
+    duplicate = User_account.query.get(user["username"])
     if duplicate:
-        return {'message': 'Username already exists'}, 409
+        return {"message": "Username already exists"}, 409
 
-    hashed_pass = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
+    hashed_pass = bcrypt.hashpw(user["password"].encode(), bcrypt.gensalt())
+
     user = User_account(
-        username=data['username'], full_name=data['full_name'], password=hashed_pass.decode())
+        username=user["username"],
+        full_name=user["full_name"],
+        password=hashed_pass.decode(),
+    )
+
     db.session.add(user)
     db.session.commit()
-    
-    return {'message': 'User successfully created'}, 201
+    return {"message": "User successfully created"}, 201
 
 
-@user_bp.route('/api/login', methods=['POST'])
-def user_login():
-    data = request.json
-    db_user = User_account.query.filter_by(username=data['username']).first()
+@user.route("/api/login", methods=["POST"])
+@body(login_schema)
+@other_responses({200: "Authentication successful", 401: "Wrong credentials"})
+def user_login(user):
+    """Authenticate a user"""
 
-    if not db_user or not bcrypt.checkpw(data['password'].encode(), db_user.password.encode()):
-        return {'message': 'Wrong credentials'}, 401
+    db_user = User_account.query.get(user["username"])
 
-    session['username'] = db_user.username
+    if not db_user or not bcrypt.checkpw(
+        user["password"].encode(), db_user.password.encode()
+    ):
+        return {"message": "Wrong credentials"}, 401
 
-    return {'message': 'Autentication successful'}, 200
+    # Set session
+    session["username"] = db_user.username
+
+    return {"message": "Authentication successful"}, 200
 
 
-@user_bp.route('/api/loggedin', methods=['GET'])
-def user_loggedin():
-    if 'username' in session:
-        return session['username'], 200
-    return '', 200
-
-@user_bp.route('/api/user', methods=['GET'])
+@user.route("/api/user", methods=["GET"])
+@response(full_name_schema)
 def user_fullname():
-    user_db = User_account.query.filter_by(username=session['username']).first()
-    return {'full_name': user_db.full_name}, 200
+    """Get the full name of the current user"""
+
+    user_db = User_account.query.get(session["username"])
+
+    return {"full_name": user_db.full_name}, 200
 
 
-"""
-User actions
-"""
+@user.route("/api/user", methods=["PUT"])
+@body(update_schema)
+@other_responses({200: "Changes made successfully"})
+def update_user(user):
+    """Update the current user"""
 
-@user_bp.route('/api/user', methods=['PUT'])
-def update_user():
-    data = request.json
+    db_user = User_account.query.get(session["username"])
 
-    # Tomar username del session
-    db_user = User_account.query.filter_by(username=session['username']).first()
+    if user["full_name"]:
+        db_user.full_name = user["full_name"]
 
-    if not data['full_name'] and not data['password']:
-        return {'message': 'No changes were made'}, 400
-
-    if data['full_name']:
-        db_user.full_name = data['full_name']
-
-    if data['password']:
-        hashed_pass = bcrypt.hashpw(
-            data['password'].encode(), bcrypt.gensalt())
+    if user["password"]:
+        hashed_pass = bcrypt.hashpw(user["password"].encode(), bcrypt.gensalt())
         db_user.password = hashed_pass.decode()
 
     db.session.commit()
-    return {'message': 'Changes made successfully'}, 200
+    return {"message": "Changes made successfully"}, 200
 
 
-@user_bp.route('/api/user', methods=['DELETE'])
+@user.route("/api/user", methods=["DELETE"])
+@other_responses({200: "User deleted successfully"})
 def user_delete():
-    db_user = User_account.query.filter_by(username=session['username']).first()
+    """Delete the current user"""
+
+    db_user = User_account.query.get(session["username"])
     db.session.delete(db_user)
+
     db.session.commit()
-    session.pop('username')
-    return {'message': 'User deleted'}
+
+    session.pop("username")
+
+    return {"message": "User deleted"}, 200
 
 
-@user_bp.route('/api/logout', methods=['DELETE'])
+@user.route("/api/loggedin", methods=["GET"])
+@other_responses({200: "User's username"})
+def user_loggedin():
+    """Check if the user is logged in"""
+
+    if "username" in session:
+        return session["username"], 200
+    return "", 200
+
+
+@user.route("/api/logout", methods=["DELETE"])
+@other_responses({200: "Logged out"})
 def user_logout():
-    session.pop('username')
-    return {'message': 'Logged out'}, 200
+    """Log out the current user"""
+
+    session.pop("username")
+    return {"message": "Logged out"}, 200

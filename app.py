@@ -1,20 +1,23 @@
 import os
 
 # from dotenv import load_dotenv
+from apifairy import APIFairy
 from flask import Flask
 from flask.helpers import send_from_directory
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from Config import *
 
+# from dotenv import load_dotenv
 # load_dotenv()
 
 # Load flask, setting static folder for loading React App
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 
 
-# SqlAlchemy ya no admite postgres:// se debe llevar a postgresql://
+# SqlAlchemy does not allow postgres:// anymore, change into postgresql://
 uri = os.environ['DATABASE_URL']
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
@@ -28,14 +31,13 @@ migrate = Migrate(app, db);
 
 app.secret_key = os.environ['SECRET_KEY']
 
-from server.controllers.picture import picture_bp
-from server.controllers.repository import repository_bp
-from server.controllers.user import user_bp
+apifairy = APIFairy(app)
+ma = Marshmallow(app)
 
 """
 En el caso de que se haga una petición a una ruta que el backend no conoce
-se envía el index.html, React va a tomar el url y sabrá a donde llevar al usuario
-mediante react-router
+se envía el index.html, React va a tomar el url y sabrá a donde
+llevar al usuario mediante react-router
 """
 
 @app.errorhandler(404)
@@ -50,7 +52,12 @@ def index():
 def send_img(name):
     return send_from_directory(os.path.join(app.root_path, 'server', 'uploads'), name, as_attachment=False)
 
-# Blueprints que permiten separar el server en componentes
-app.register_blueprint(user_bp)
-app.register_blueprint(picture_bp)
-app.register_blueprint(repository_bp)
+# Using blueprints to separate the controllers in different files
+from server.controllers.picture import picture
+from server.controllers.repository import repository
+from server.controllers.user import user
+
+# Blueprints
+app.register_blueprint(user)
+app.register_blueprint(picture)
+app.register_blueprint(repository)
