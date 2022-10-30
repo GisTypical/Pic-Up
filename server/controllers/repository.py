@@ -3,8 +3,7 @@ from app import db
 from flask import Blueprint, session
 from server.models.picture import Picture
 from server.models.repository import Repository
-from server.schemas import (ListRepoPicturesSchema, ListRepoSchema,
-                            RepositorySchema)
+from server.schemas import ListRepoPicturesSchema, ListRepoSchema, RepositorySchema
 
 repository = Blueprint("repository", __name__)
 
@@ -27,11 +26,13 @@ def repo_create(repo):
 def list_repos():
     """List user repositories"""
 
-    repos = db.session.execute(
-        db.select(Repository).filter_by(
-            username=session["username"]
+    repos = (
+        db.session.execute(
+            db.select(Repository).filter_by(username=session["username"])
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
 
     for repo in repos:
         repo.pic_count = len(repo.pictures)
@@ -48,9 +49,9 @@ def repo_pictures(id):
     Get all pictures in a repository and the tags for each picture
     """
 
-    pictures = db.session.execute(
-        db.select(Picture).filter_by(repo_id=id)
-    ).scalars().all()
+    pictures = (
+        db.session.execute(db.select(Picture).filter_by(repo_id=id)).scalars().all()
+    )
 
     repo = db.session.execute(
         db.select(Repository.repo_name).filter_by(repo_id=id)

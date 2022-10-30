@@ -83,11 +83,7 @@ class ListPicturesSchema(ma.Schema):
 
 
 class ListRepoSchema(ma.Schema):
-    repos = ma.List(
-        ma.Nested(
-            RepositorySchema
-        )
-    )
+    repos = ma.List(ma.Nested(RepositorySchema))
 
 
 class ListRepoPicturesSchema(ma.Schema):
