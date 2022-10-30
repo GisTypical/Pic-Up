@@ -1,7 +1,11 @@
 from app import ma
+
 from server.models.picture import Picture
 from server.models.repository import Repository
 from server.models.user import User_account
+
+
+# ---- User Schemas ----
 
 
 class UserSchema(ma.SQLAlchemySchema):
@@ -41,28 +45,7 @@ class UserFullNameSchema(ma.SQLAlchemySchema):
     full_name = ma.auto_field(required=True)
 
 
-"""Picture Schema"""
-
-
-class PictureSchema(ma.SQLAlchemySchema):
-    class Meta:
-        model = Picture
-        ordered = True
-
-    pic_id = ma.String()
-    repo_id = ma.auto_field()
-    pic_name = ma.auto_field()
-    img_path = ma.auto_field()
-    uploaded_date = ma.auto_field()
-    tags = ma.List(ma.String())
-    picture = ma.String(load_only=True)
-
-
-class ListPicturesSchema(ma.Schema):
-    pictures = ma.List(ma.Nested(PictureSchema, exclude=['repo_id']))
-
-
-"""Repo Schema"""
+# ---- Repository Schema ----
 
 
 class RepositorySchema(ma.SQLAlchemySchema):
@@ -70,19 +53,39 @@ class RepositorySchema(ma.SQLAlchemySchema):
         model = Repository
         ordered = True
 
-    repo_id = ma.auto_field()
-    username = ma.auto_field()
-    repo_name = ma.auto_field()
-    last_mod = ma.auto_field()
-    pictures = ma.auto_field(dump_only=True)
-    number_pics = ma.Int(dump_only=True)
+    repo_id = ma.auto_field(dump_only=True)
+    username = ma.auto_field(dump_only=True)
+    repo_name = ma.auto_field(required=True)
+    last_mod = ma.auto_field(dump_only=True)
+    pic_count = ma.Int(dump_only=True)
+
+
+# ---- Picture Schema ----
+
+
+class PictureSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Picture
+        ordered = True
+
+    picture_id = ma.auto_field(dump_only=True)
+    pic_name = ma.auto_field(required=True)
+    img_path = ma.auto_field(dump_only=True)
+    uploaded_date = ma.auto_field(dump_only=True)
+    picture_file = ma.String(load_only=True)
+    tags = ma.auto_field(dump_only=True)
+    secure_url = ma.String(dump_only=True)
+    repository = ma.Nested(RepositorySchema)
+
+
+class ListPicturesSchema(ma.Schema):
+    pictures = ma.List(ma.Nested(PictureSchema))
 
 
 class ListRepoSchema(ma.Schema):
     repos = ma.List(
         ma.Nested(
-            RepositorySchema,
-            exclude=["pictures"],
+            RepositorySchema
         )
     )
 
@@ -92,6 +95,6 @@ class ListRepoPicturesSchema(ma.Schema):
     pictures = ma.List(
         ma.Nested(
             PictureSchema,
-            exclude=["repo_id"],
+            exclude=["repository"],
         )
     )

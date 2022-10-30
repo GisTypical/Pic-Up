@@ -1,18 +1,17 @@
 from apifairy import body, other_responses, response
 from app import db
-from flask import Blueprint, request, session
+from flask import Blueprint, session
+from server.models.picture import Picture
 from server.models.repository import Repository
-from server.schemas import ListRepoPicturesSchema, ListRepoSchema, RepositorySchema
+from server.schemas import (ListRepoPicturesSchema, ListRepoSchema,
+                            RepositorySchema)
 
 repository = Blueprint("repository", __name__)
-repo_schema = RepositorySchema()
-post_repo_schema = RepositorySchema(only=['repo_name'])
-list_repo_schema = ListRepoSchema()
-list_picture_schema = ListRepoPicturesSchema()
+
 
 @repository.route("/api/repo", methods=["POST"])
-@body(post_repo_schema)
-@response(repo_schema)
+@body(RepositorySchema(only=["repo_name"]))
+@response(RepositorySchema(exclude=["pic_count"]))
 def repo_create(repo):
     """Create a new repository"""
 
@@ -22,61 +21,42 @@ def repo_create(repo):
 
     return created_repo, 201
 
+
 @repository.route("/api/repo", methods=["GET"])
-@response(list_repo_schema)
+@response(ListRepoSchema())
 def list_repos():
     """List user repositories"""
 
-    repos = Repository.query.filter_by(username=session["username"]).all()
-    repo_list = []
+    repos = db.session.execute(
+        db.select(Repository).filter_by(
+            username=session["username"]
+        )
+    ).scalars().all()
 
     for repo in repos:
-        repo_cols = {
-            'repo_id': repo.repo_id,
-            'username': repo.username,
-            'repo_name': repo.repo_name,
-            'last_mod': repo.last_mod.isoformat(),
-            'number_pics': len(repo.pictures)
-        }
-        repo_list.append(repo_cols)
+        repo.pic_count = len(repo.pictures)
 
-    return {"repos": repo_list}
+    return {"repos": repos}
 
 
 # Get repo images and tags
 @repository.route("/api/repo/<string:id>")
-@response(list_picture_schema)
+@response(ListRepoPicturesSchema())
 def repo_pictures(id):
     """Get all pictures in a repository
 
     Get all pictures in a repository and the tags for each picture
     """
 
-    repo_db = Repository.query.filter_by(repo_id=id).first()
-    pic_list = []
-    for pic in repo_db.pictures:
-        # Get tags for each picture - max 2 tags (this can be refactored)
-        tag_list = []
-        if pic.tags:
-            # If there is one tag, just add it to the list
-            tag_list.append(pic.tags[0].tag_name)
-            # If there are more than 1 tag, add the first 2 tags to the list
-            if len(pic.tags) > 1:
-                tag_list.clear()
-                for i in range(2):
-                    tag_list.append(pic.tags[i].tag_name)
+    pictures = db.session.execute(
+        db.select(Picture).filter_by(repo_id=id)
+    ).scalars().all()
 
-        pic_list.append(
-            {
-                "pic_id": pic.picture_id,
-                "pic_name": pic.pic_name,
-                "img_path": pic.img_path,
-                "uploaded_date": pic.uploaded_date,
-                "tags": tag_list,
-            }
-        )
+    repo = db.session.execute(
+        db.select(Repository.repo_name).filter_by(repo_id=id)
+    ).one()
 
-    return {"pictures": pic_list, "repo_name": repo_db.repo_name}
+    return {"pictures": pictures, "repo_name": repo.repo_name}
 
 
 @repository.route("/api/repo/<string:id>", methods=["DELETE"])
@@ -87,6 +67,7 @@ def delete_repo(id):
     repo = Repository.query.get(id)
     if not repo:
         return {"message": "Repo not found"}, 404
+
     db.session.delete(repo)
     db.session.commit()
     return {"message": "Repo deleted"}
