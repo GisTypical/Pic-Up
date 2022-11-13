@@ -16,28 +16,18 @@ from Config import DevelopmentConfig
 # Load flask, setting static folder for loading React App
 app = Flask(__name__, static_folder="./frontend/build", static_url_path="/")
 
-
-# SqlAlchemy does not allow postgres:// anymore, change into postgresql://
-uri = os.environ["DATABASE_URL"]
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
-
 app.config.from_object(DevelopmentConfig)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = uri
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
-app.secret_key = os.environ["SECRET_KEY"]
 
 apifairy = APIFairy(app)
 ma = Marshmallow(app)
 
 """
-En el caso de que se haga una petición a una ruta que el backend no conoce
-se envía el index.html, React va a tomar el url y sabrá a donde
-llevar al usuario mediante react-router
+If for some case there's a request made to a path that the backend doesn't know, send
+the index.html and React will grab the url knowing where to take the take the user via
+react-router
 """
 
 

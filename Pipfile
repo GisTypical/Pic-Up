@@ -43,6 +43,7 @@ sqlalchemy = "*"
 toml = "*"
 webargs = "*"
 werkzeug = "*"
+cloudinary = "*"
 
 [dev-packages]
 

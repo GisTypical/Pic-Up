@@ -1,13 +1,13 @@
 import os
-from random import randint
 
 from apifairy import other_responses, response
-from app import db
+from cloudinary import uploader
 from flask import Blueprint, request, session
+
+from app import db
 from server.models.picture import Picture, Tag
 from server.models.repository import Repository
 from server.schemas import ListPicturesSchema, PictureSchema
-from werkzeug.utils import secure_filename
 
 picture = Blueprint("picture", __name__)
 
@@ -22,25 +22,23 @@ def picture_create():
     If the repository does not exist, create a Default repository
     """
     form = request.form
-    f = request.files["picture"]
-    file_name = f"{randint(0,10000)}{secure_filename(f.filename)}"
-    img_path = os.path.join(upload_path, file_name)
-    f.save(img_path)
+
+    uploaded_img = uploader.upload(request.files["picture"], folder="pic-up")
 
     # Create a Default Repo if user sends a picture without a repo
     if "repo_id" not in form:
         repo = Repository(username=session["username"], repo_name="Default")
         db.session.add(repo)
         db.session.commit()
-        picture = Picture(
-            repo_id=repo.repo_id, pic_name=form["pic_name"], img_path=file_name
-        )
 
-    else:
-        picture = Picture(
-            repo_id=form["repo_id"], pic_name=form["pic_name"], img_path=file_name
-        )
+    picture = Picture(
+        repo_id=form["repo_id"] if ("repo_id" in form) else repo.repo_id,
+        pic_name=form["pic_name"],
+        public_id=uploaded_img.get("public_id"),
+        secure_url=uploaded_img.get("secure_url"),
+    )
 
+    # Save picture
     db.session.add(picture)
 
     # Add tags to picture
