@@ -1,5 +1,4 @@
 from app import db
-from sqlalchemy.orm import backref
 
 
 class User_account(db.Model):
@@ -7,4 +6,8 @@ class User_account(db.Model):
     full_name = db.Column(db.String(), nullable=False)
     password = db.Column(db.String(), nullable=False)
     repositories = db.relationship(
-        'Repository', backref='user_account', cascade='all, delete, delete-orphan', lazy=True)
+        "Repository",
+        backref="user_account",
+        cascade="all, delete, delete-orphan",
+        lazy=True,
+    )

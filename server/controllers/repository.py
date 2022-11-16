@@ -1,64 +1,74 @@
+from apifairy import body, other_responses, response
 from app import db
-from flask import Blueprint, request, session
+from flask import Blueprint, session
+from server.models.picture import Picture
 from server.models.repository import Repository
+from server.schemas import ListRepoPicturesSchema, ListRepoSchema, RepositorySchema
 
-repository_bp = Blueprint('repository_bp', __name__)
+repository = Blueprint("repository", __name__)
 
 
-@repository_bp.route('/api/repos', methods=['POST'])
-def picture_create():
-    data = request.json
-    repo = Repository(username=session['username'], repo_name=data['repo_name'])
-    db.session.add(repo)
+@repository.route("/api/repo", methods=["POST"])
+@body(RepositorySchema(only=["repo_name"]))
+@response(RepositorySchema(exclude=["pic_count"]))
+def repo_create(repo):
+    """Create a new repository"""
+
+    created_repo = Repository(username=session["username"], repo_name=repo["repo_name"])
+    db.session.add(created_repo)
     db.session.commit()
-    return {'message': 'Created repo'}, 201
+
+    return created_repo, 201
 
 
-@repository_bp.route('/api/repos', methods=["GET"])
-def get_repos():
-    if not 'username' in session: return '', 401 
-    repos = Repository.query.filter_by(username=session['username']).all()
-    repo_list = []
+@repository.route("/api/repo", methods=["GET"])
+@response(ListRepoSchema())
+def list_repos():
+    """List user repositories"""
+
+    repos = (
+        db.session.execute(
+            db.select(Repository).filter_by(username=session["username"])
+        )
+        .scalars()
+        .all()
+    )
+
     for repo in repos:
-        repo_cols = {
-            'repo_id': repo.repo_id,
-            'username': repo.username,
-            'repo_name': repo.repo_name,
-            'last_mod': repo.last_mod.isoformat(),
-            'number_pics': len(repo.pictures)
-        }
-        repo_list.append(repo_cols)
-    return {'repos': repo_list}
+        repo.pic_count = len(repo.pictures)
 
-@repository_bp.route('/api/repos/<string:repo_id>')
-def repo_pictures(repo_id):
-    repo_db = Repository.query.filter_by(repo_id=repo_id).first()
-    pic_list = []
-    for pic in repo_db.pictures:
-        tag_list = []
-        if pic.tags: 
-            tag_list.append(pic.tags[0].tag_name)
-            if len(pic.tags) > 1:
-                tag_list.clear()
-                for i in range(2):
-                    tag_list.append(pic.tags[i].tag_name)
-        
-        pic_list.append({
-            'pic_id': pic.picture_id,
-            'pic_name': pic.pic_name,
-            'img_path': pic.img_path,
-            'uploaded_date': pic.uploaded_date,
-            'tags': tag_list
-        })
+    return {"repos": repos}
 
-    return {'pictures': pic_list, 'repo_name':repo_db.repo_name }
 
-@repository_bp.route('/api/repos', methods=['DELETE'])
-def delete_repo():
-    data = request.json
-    user = Repository.query.filter_by(repo_id=data['repo_id']).first()
-    if not user:
-        return {'message': 'No repo found'}, 400
-    db.session.delete(user)
+# Get repo images and tags
+@repository.route("/api/repo/<string:id>")
+@response(ListRepoPicturesSchema())
+def repo_pictures(id):
+    """Get all pictures in a repository
+
+    Get all pictures in a repository and the tags for each picture
+    """
+
+    pictures = (
+        db.session.execute(db.select(Picture).filter_by(repo_id=id)).scalars().all()
+    )
+
+    repo = db.session.execute(
+        db.select(Repository.repo_name).filter_by(repo_id=id)
+    ).one()
+
+    return {"pictures": pictures, "repo_name": repo.repo_name}
+
+
+@repository.route("/api/repo/<string:id>", methods=["DELETE"])
+@other_responses({404: "Repo not found", 200: "Repo deleted"})
+def delete_repo(id):
+    """Delete a repository"""
+
+    repo = Repository.query.get(id)
+    if not repo:
+        return {"message": "Repo not found"}, 404
+
+    db.session.delete(repo)
     db.session.commit()
-    return {'message': 'Repo deleted'}
+    return {"message": "Repo deleted"}
